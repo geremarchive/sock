@@ -117,30 +117,32 @@ func main() {
 			fu.DrawScreen(s, *escape, *center, bg, color, message)
 		}
 
-		input := s.PollEvent()
-		switch input := input.(type) {
-			case *tcell.EventKey:
-				if input.Key() == tcell.KeyEnter {
-					if chars == pass {
-						s.Fini()
+		if !(*check) {
+			input := s.PollEvent()
+			switch input := input.(type) {
+				case *tcell.EventKey:
+					if input.Key() == tcell.KeyEnter {
+						if chars == pass {
+							s.Fini()
 
-						if *escape {
-							fmt.Print("\033]11;" + strings.ToUpper(fu.HexHash(og)) + "\007")
-						}
-
-						if _, err := os.Stat("/tmp/locked.sock"); err == nil {
-							if err := os.Remove("/tmp/locked.sock"); err != nil {
-								fmt.Println("Couldn't delete /tmp/locked.sock")
+							if *escape {
+								fmt.Print("\033]11;" + strings.ToUpper(fu.HexHash(og)) + "\007")
 							}
-						}
 
-						os.Exit(0)
+							if _, err := os.Stat("/tmp/locked.sock"); err == nil {
+								if err := os.Remove("/tmp/locked.sock"); err != nil {
+									fmt.Println("Couldn't delete /tmp/locked.sock")
+								}
+							}
+
+							os.Exit(0)
+						} else {
+							chars = ""
+						}
 					} else {
-						chars = ""
+						chars += string(input.Rune())
 					}
-				} else {
-					chars += string(input.Rune())
-				}
+			}
 		}
 	}
 }
