@@ -10,7 +10,7 @@ sock, or **S**imple L**ock** is a simple and customizable terminal locker.
 ## Usage
 
 ```
-Usage: sock [OPTION] [PASSWORD]
+Usage: sock [OPTION]
 A simple terminal locker
 
 --help, -h: Display this information
@@ -30,4 +30,18 @@ Add ```sock -k``` to your ```.shellrc``` so newly opened terminals can check if 
 
 ## Note
 
-sock doesn't grab the current user's password from the system you must supply it as the last argument. If not password is supplied, the password is simply "", so you can press [ENTER] to exit
+sock doesn't grab the current user's password from the system you must supply enter it into a prompt that doesn't echo your password.
+
+## Dependencies
+
+```
+github.com/gdamore/tcell
+```
+
+```
+github.com/spf13/pflag
+```
+
+```
+github.com/bgentry/speakeasy
+```

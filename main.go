@@ -4,12 +4,13 @@ import (
 	"github.com/gdamore/tcell"
 	fu "sock/funcs"
 	flag "github.com/spf13/pflag"
+	se "github.com/bgentry/speakeasy"
 	"strings"
 	"os"
 	"fmt"
 )
 
-const help = `Usage: sock [OPTION] [PASSWORD]
+const help = `Usage: sock [OPTION]
 A simple terminal locker
 
 --help, -h: Display this information
@@ -53,10 +54,18 @@ func main() {
 	check := flag.BoolP("check", "k", false, "Checks if all terminals are locked")
 
 	flag.Parse()
-
 	if *check {
 		if _, err := os.Stat("/tmp/locked.sock"); err != nil {
 			os.Exit(0)
+		}
+
+		pass = ""
+	} else {
+		var err error
+		pass, err = se.Ask("Password: ")
+
+		if err != nil {
+			pass = ""
 		}
 	}
 
@@ -69,10 +78,6 @@ func main() {
 		}
 
 		f.Close()
-	}
-
-	if len(flag.Args()) >= 1 {
-		pass = flag.Args()[0]
 	}
 
 	s, err := tcell.NewScreen()
