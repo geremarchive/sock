@@ -19,6 +19,7 @@ A simple terminal locker
 --og=[HEX], -o: Set the original color (only needed if you are using the '-e' option)
 --escape, -e: Set the background color using escape seqences (check if your terminal supports this)
 --center, -C: Center the text
+--bold, -B: Use bold text
 --all, -a: Lock all terminals
 --check, -k: Checks if all terminals are locked, if they are, it locks the terminal`
 
@@ -48,6 +49,7 @@ func main() {
 
 	escape := flag.BoolP("escape", "e", false, "Set the background color using escape seqences (check if your terminal supports this)")
 	center := flag.BoolP("center", "C", false, "Center the text")
+	bold := flag.BoolP("bold", "B", false, "Use bold text")
 
 	all := flag.BoolP("all", "a", false, "Lock all terminals")
 	check := flag.BoolP("check", "k", false, "Checks if all terminals are locked")
@@ -94,7 +96,7 @@ func main() {
 
 	defer s.Fini()
 
-	fu.DrawScreen(s, *escape, *center, bg, color, message)
+	fu.DrawScreen(s, *escape, *center, bg, color, message, *bold)
 
 	if *all || *check {
 		go func() {
@@ -122,7 +124,7 @@ func main() {
 			width, height = nw, nh
 
 			s.Clear()
-			fu.DrawScreen(s, *escape, *center, bg, color, message)
+			fu.DrawScreen(s, *escape, *center, bg, color, message, *bold)
 		}
 
 		if !(*check) {

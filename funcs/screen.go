@@ -12,7 +12,7 @@ func Addstr(s tcell.Screen, style tcell.Style, x int, y int, text string) {
 	}
 }
 
-func DrawScreen(s tcell.Screen, escape bool, center bool, bg string, color string, message string) {
+func DrawScreen(s tcell.Screen, escape bool, center bool, bg string, color string, message string, bold bool) {
 	width, height := s.Size()
 
 	if bg != "" {
@@ -25,19 +25,19 @@ func DrawScreen(s tcell.Screen, escape bool, center bool, bg string, color strin
 
 	if center {
 		if escape {
-			Addstr(s, tcell.StyleDefault.Foreground(tcell.GetColor(HexHash(color))),
+			Addstr(s, tcell.StyleDefault.Foreground(tcell.GetColor(HexHash(color))).Bold(bold),
 				 (width / 2) - len(message) / 2, (height / 2) - 1,
 				 message)
 		} else {
-			Addstr(s, tcell.StyleDefault.Foreground(tcell.GetColor(HexHash(color))).Background(tcell.GetColor(HexHash(bg))),
+			Addstr(s, tcell.StyleDefault.Foreground(tcell.GetColor(HexHash(color))).Background(tcell.GetColor(HexHash(bg))).Bold(bold),
 				 (width / 2) - len(message) / 2, (height / 2) - 1,
 				 message)
 		}
 	} else {
 		if escape {
-			Addstr(s, tcell.StyleDefault.Foreground(tcell.GetColor(HexHash(color))), 0, 0, message)
+			Addstr(s, tcell.StyleDefault.Foreground(tcell.GetColor(HexHash(color))).Bold(bold), 0, 0, message)
 		} else {
-			Addstr(s, tcell.StyleDefault.Foreground(tcell.GetColor(HexHash(color))).Background(tcell.GetColor(HexHash(bg))), 0, 0, message)
+			Addstr(s, tcell.StyleDefault.Foreground(tcell.GetColor(HexHash(color))).Background(tcell.GetColor(HexHash(bg))).Bold(bold), 0, 0, message)
 		}
 	}
 

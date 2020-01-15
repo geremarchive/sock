@@ -22,6 +22,7 @@ A simple terminal locker
 --og=[HEX], -o: Set the original color (only needed if you are using the '-e' option)
 --escape, -e: Set the background color using escape seqences (check if your terminal supports this)
 --center, -C: Center the text
+--bold, -B: Use bold text
 --all, -a: Lock all terminals
 --check, -k: Checks if all terminals are locked, if they are, it locks the terminal
 ```
