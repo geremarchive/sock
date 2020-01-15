@@ -5,9 +5,11 @@
 
 ## About
 
-sock, or **S**imple L**ock** is a simple and customizable terminal locker.
+```sock```, or **S**imple L**ock** is a simple and customizable terminal locker. ```sock``` allows you to lock one or multiple terminals and sync them. It matches the password the user types in with the encypted root password stored in ```/etc/shadow``` 
 
 ## Usage
+
+(must be run a root)
 
 ```
 Usage: sock [OPTION]
@@ -28,10 +30,6 @@ A simple terminal locker
 
 Add ```sock -k``` to your ```.shellrc``` so newly opened terminals can check if all terminals are locked
 
-## Note
-
-sock doesn't grab the current user's password from the system you must supply enter it into a prompt that doesn't echo your password.
-
 ## Dependencies
 
 ```
@@ -43,5 +41,5 @@ github.com/spf13/pflag
 ```
 
 ```
-github.com/bgentry/speakeasy
+openssl
 ```

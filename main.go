@@ -4,7 +4,6 @@ import (
 	"github.com/gdamore/tcell"
 	fu "sock/funcs"
 	flag "github.com/spf13/pflag"
-	se "github.com/bgentry/speakeasy"
 	"strings"
 	"os"
 	"fmt"
@@ -39,7 +38,7 @@ func main() {
 		og string
 
 		chars string
-		pass string
+		crypt string
 	)
 
 	flag.StringVarP(&message, "message", "m", "", "Set the message")
@@ -58,14 +57,18 @@ func main() {
 		if _, err := os.Stat("/tmp/locked.sock"); err != nil {
 			os.Exit(0)
 		}
-
-		pass = ""
 	} else {
-		var err error
-		pass, err = se.Ask("Password: ")
+		if os.Geteuid() == 0 {
+			var err error
+			crypt, err = fu.GetCrypt("root")
 
-		if err != nil {
-			pass = ""
+			if err != nil || crypt == "" {
+				fmt.Println("Couldn't get root's encrypted password")
+				os.Exit(0)
+			}
+		} else {
+			fmt.Println("Must be run as root!")
+			os.Exit(0)
 		}
 	}
 
@@ -127,7 +130,13 @@ func main() {
 			switch input := input.(type) {
 				case *tcell.EventKey:
 					if input.Key() == tcell.KeyEnter {
-						if chars == pass {
+						matches, err := fu.MatchCrypt(chars, crypt)
+
+						if err != nil {
+							panic(err)
+						}
+
+						if matches {
 							s.Fini()
 
 							if *escape {
