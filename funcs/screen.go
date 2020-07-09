@@ -77,9 +77,10 @@ func (o Options) Start(crypt string) error {
 		}()
 	}
 
+	var chars string
+
 	for {
 		nw, nh := s.Size()
-		chars := ""
 
 		if nw != width || nh != height {
 			width, height = nw, nh
